@@ -24,7 +24,7 @@ def new():
 def edit():
     #opens the waveform for editing in the external window.
     #returns a tuple for some reason, we only want the first bit
-    index = wavlistbox.curselection()[0]
+    index = int(wavlistbox.curselection()[0])
     print index
     #If not null
     WaveBuilder(wavlst[index], comp)
@@ -85,3 +85,4 @@ Button(right1, text="Remove", command=remove).pack()
 update_list()
 
 root.mainloop()
+
