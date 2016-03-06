@@ -2,7 +2,8 @@
 from Tkinter import *
 from components import Wave, Graph
 import math
-
+import settings
+import windowlist
 
 #I wouldn't really run this class as its own thing
 #It is a component of a larger project.
@@ -44,12 +45,14 @@ class WaveBuilder:
          
          Label(f, text="Amplitude").pack()
          self.a_scale = Scale(f,orient=HORIZONTAL,\
-                              command=self.set_amp, from_=0, to=1, resolution=0.1)
+                              command=self.set_amp, from_=settings.getampmin(),\
+                              to=settings.getampmax(), resolution=settings.getampstep())
          self.a_scale.set(wave.amp)
          self.a_scale.pack()
          Label(f, text="Frequency(Hz)").pack()
          self.f_scale = Scale(f,orient=HORIZONTAL,\
-                              command=self.set_freq, from_=0, to=5, resolution=0.1)
+                              command=self.set_freq, from_=settings.getfreqmin(),\
+                              to=settings.getfreqmax(), resolution=settings.getfreqstep())
          self.f_scale.set(wave.freq)
          self.f_scale.pack()
          Label(f, text="Phase Angle(degrees)").pack()
@@ -57,6 +60,9 @@ class WaveBuilder:
                               command=self.set_phase, from_=0, to=360)
          self.p_scale.set(wave.freq)
          self.p_scale.pack()
+
+         #I need to add a specific protocol for when the user quits the window
+         self.t.protocol("WM_DELETE_WINDOW", self.on_closing)
 
 
     def set_amp(self, value):
@@ -77,8 +83,28 @@ class WaveBuilder:
         self.g.draw()
         if(self.comp):
             self.comp.draw()
+
+    def reset(self):
+        self.a_scale["from_"] = settings.getampmin()
+        self.a_scale["to"] = settings.getampmax()
+        self.a_scale["resolution"] = settings.getampstep()
+
+        self.f_scale["from_"] = settings.getfreqmin()
+        self.f_scale["to"]=settings.getfreqmax()
+        self.f_scale["resolution"]=settings.getfreqstep()
+
+        self.g.setvertical()
+
+        self.update()
+
+    def close(self):
+        self.t.destroy()
+
+    def on_closing(self):
+        windowlist.delete(self.wav)
         
 ##root = Tk()
 ##WaveBuilder(Wave(), None)
 ##root.mainloop()
+
 
