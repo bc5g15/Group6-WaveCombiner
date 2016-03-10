@@ -1,0 +1,13 @@
+BUGFIXES 05/03/16
+
+-Windows now properly close or highlight when the user selects edit or remove.
+
+-Recentering is now possible
+
+06/03/16
+
+-Basic settings window.
+
+09/03/016
+
+-Saving/Loading added, maybe? Brain a bit fogged.
