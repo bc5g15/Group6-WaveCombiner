@@ -1,6 +1,7 @@
 #components.py - The Wave and Graph classes. Designed to be imported.
 from Tkinter import *
 import math
+import settings
 
 class Wave:
     amp = 0
@@ -28,10 +29,13 @@ class Wave:
 
 class Graph(Canvas):
     wave = None
-    scaleX = 2
-    scaleY =4
+    xscale = 2
+    yscale =4
     viewX = 0
     viewY = 0
+
+    xgrid = False
+    ygrid = False
 
     wavlst= []
 
@@ -56,13 +60,22 @@ class Graph(Canvas):
         self.draw()
 
     def scalex(self, value):
-        self.scaleX=float(value)
+        self.xscale=float(value)
         self.draw()
 
     def scaley(self, value):
-        self.scaleY=float(value)
+        self.yscale=float(value)
         self.draw()
 
+    def getscale(self):
+        #Get scale from external file
+        self.xscale=settings.getxscale()
+        self.yscale=settings.getyscale()
+
+    def setvertical(self):
+        #Mainly for use by component waves
+        #Show the maximum Y value, but keep the x value constant.
+        self.yscale=settings.getyscale()
     
     def draw(self):
         buf = 10
@@ -73,13 +86,15 @@ class Graph(Canvas):
         vx = self.viewX
         vy = self.viewY
         
-        xratio = width/(self.scaleX)
-        yratio = height/(self.scaleY)
+        xratio = width/(self.xscale)
+        yratio = height/(self.yscale)
 
         #Axis lines, if they can be seen
         self.create_line(0, height-vy, width, height-vy, fill="blue")
         self.create_line(vx, 0, vx, height, fill="red")
 
+        #Gridlines should go here, based on the position of vx and vy
+        
         oldx = 0
         oldy = vy
         for x in range(int(width)):
@@ -104,3 +119,4 @@ class Graph(Canvas):
             self.create_line(oldx, oldy, x, y, fill="black")
             oldx = x
             oldy = y
+
