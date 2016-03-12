@@ -56,7 +56,7 @@ def edit():
 def remove():
     #Make sure something is highlighted!
     if not wavlistbox.curselection() ==():
-        index = wavlistbox.curselection()[0]
+        index = int(wavlistbox.curselection()[0])
         wav=wavlst.pop(index)
         #If the window is open, close it
         if windowlist.exists(wav):
