@@ -82,13 +82,13 @@ def btnapply():
         failed = True
         errors.append("Amplitude Step is not a valid float!")
 
-    if validate.non_zero_float(xs):
+    if validate.greater_than_zero(xs):
         xs=float(xs)
     else:
         failed=True
         errors.append("X Scale is not a valid float!")
 
-    if validate.non_zero_float(ys):
+    if validate.greater_than_zero(ys):
         ys=float(ys)
     else:
         failed=True

@@ -89,11 +89,41 @@ class Graph(Canvas):
         xratio = width/(self.xscale)
         yratio = height/(self.yscale)
 
+        #Gridlines must come before axis lines
+        #Not perfect, but I'm not sure it is going to get any better
+        if (height/abs(yratio))> 10:
+            kyratio = height/10
+        else:
+            kyratio = yratio
+
+        if (width/abs(xratio))>10:
+            kxratio=width/10
+        else:
+            kxratio = xratio
+        
+        for y in range(int(-(height)),int(height+vy),int(kyratio)):
+            self.create_line(0, y-vy, width, y-vy, fill="grey")
+            self.create_text(vx+10, y-vy, text=str(int((-(y-height)//yratio))),\
+                             offset="#0, 0")
+
+        for x in range(int(-(2*width)), int(width-vx), int(kxratio)):
+            self.create_line(x+vx, 0, x+vx, height, fill="grey")
+            self.create_text(vx+x, height-vy+10, text=int(x/xratio))
+        
         #Axis lines, if they can be seen
+        
         self.create_line(0, height-vy, width, height-vy, fill="blue")
         self.create_line(vx, 0, vx, height, fill="red")
 
         #Gridlines should go here, based on the position of vx and vy
+
+        #Vertical Gridlines
+##        for y in range(int(height)):
+##            ky = (height-y-vy)/yratio
+##            if ky%1 >= 0.98:
+##                self.create_line(0, y, width, y, fill="orange")
+
+            
         
         oldx = 0
         oldy = vy
@@ -103,8 +133,8 @@ class Graph(Canvas):
             k = (x-vx)/xratio
 
             #Creating gridlines. This is still in the works
-            if (k%1==0) and (x!=vx):
-                self.create_line(x, 0, x, height, fill="grey")
+##            if (k%1==0) and (x!=vx):
+##                self.create_line(x, 0, x, height, fill="grey")
             
             y = 0
             for item in self.wavlst:

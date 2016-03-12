@@ -8,6 +8,12 @@ BUGFIXES 05/03/16
 
 -Basic settings window.
 
-09/03/016
+09/03/16
 
 -Saving/Loading added, maybe? Brain a bit fogged.
+
+12/03/16
+
+-First implementation of gridlines/grid-numbers
+
+-Updated x-scale/y-scale validation with "greater than zero" validation

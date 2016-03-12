@@ -34,3 +34,13 @@ def non_zero_float(value):
             return True
     except:
         return False
+
+def greater_than_zero(value):
+    try:
+        k=float(value)
+        if k<=0:
+            return False
+        else:
+            return True
+    except:
+        return False
