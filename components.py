@@ -93,22 +93,26 @@ class Graph(Canvas):
         #Not perfect, but I'm not sure it is going to get any better
         if (height/abs(yratio))> 10:
             kyratio = height/10
+        elif (height/abs(yratio))<4:
+            kyratio = height/4
         else:
             kyratio = yratio
 
         if (width/abs(xratio))>10:
             kxratio=width/10
+        elif(width/abs(xratio))<4:
+            kxratio=width/4
         else:
             kxratio = xratio
         
         for y in range(int(-(height)),int(height+vy),int(kyratio)):
             self.create_line(0, y-vy, width, y-vy, fill="grey")
-            self.create_text(vx+10, y-vy, text=str(int((-(y-height)//yratio))),\
+            self.create_text(vx+10, y-vy, text=str(((-(y-height)//yratio))),\
                              offset="#0, 0")
 
         for x in range(int(-(2*width)), int(width-vx), int(kxratio)):
             self.create_line(x+vx, 0, x+vx, height, fill="grey")
-            self.create_text(vx+x, height-vy+10, text=int(x/xratio))
+            self.create_text(vx+x, height-vy+10, text=(x/xratio))
         
         #Axis lines, if they can be seen
         
