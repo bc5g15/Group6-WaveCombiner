@@ -9,6 +9,7 @@ import settingsview
 import tkFileDialog
 import saveload
 
+import listupdate
 waveno = 1
 
 filename = ""
@@ -25,6 +26,8 @@ def update_list():
     wavlistbox.delete(0, END)
     for item in wavlst:
         wavlistbox.insert(END, item.name)
+
+listupdate.setme(update_list)
 
 #Build a new wave and add it to the list
 def new():

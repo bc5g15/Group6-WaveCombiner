@@ -4,6 +4,7 @@ from components import Wave, Graph
 import math
 import settings
 import windowlist
+import listupdate
 
 #I wouldn't really run this class as its own thing
 #It is a component of a larger project.
@@ -22,6 +23,8 @@ class WaveBuilder:
     avar = 0.2
     p_scale = None
     pvar = 0.1
+
+    n_entry = None
     
     def __init__(self, wave, composite_graph):
          #populate variables, then initialize graphics.
@@ -38,6 +41,14 @@ class WaveBuilder:
 
          f = Frame(self.t)
          f.pack(side=RIGHT)
+
+         f1 = Frame(f)
+         f1.pack(side=TOP)
+         self.n_entry = Entry(f1, text=str(self.wav.name))
+         self.n_entry.insert(0,self.wav.name)
+         self.n_entry.pack(side=RIGHT)
+         Button(f1, text="Set Name", command=self.update_name).pack(side=LEFT)
+         
 
          #Interesting thing. If you put variables into the scrollbars, then they
          #will follow the maniuplation of other scrollbars with the same variable
@@ -102,6 +113,9 @@ class WaveBuilder:
 
     def on_closing(self):
         windowlist.delete(self.wav)
+
+    def update_name(self):
+        self.wav.set_name(self.n_entry.get())
         
 ##root = Tk()
 ##WaveBuilder(Wave(), None)

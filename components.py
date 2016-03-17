@@ -2,6 +2,7 @@
 from Tkinter import *
 import math
 import settings
+import listupdate
 
 class Wave:
     amp = 0
@@ -25,6 +26,10 @@ class Wave:
         self.freq=value
     def set_phase(self, value):
         self.phase = value
+
+    def set_name(self, value):
+        self.name = value
+        listupdate.call()
 
 
 class Graph(Canvas):
