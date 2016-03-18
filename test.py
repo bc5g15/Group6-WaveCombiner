@@ -153,7 +153,7 @@ def new_file():
 #Graph, populate the wave form properly
 
 #This list has some debug values, should we leave these in?
-wavlst = [Wave(name="Default1"), Wave(freq=2, name="Default2")]
+wavlst = [Wave(name="Default1"), Wave(freq=2, name="Default2", draw=True)]
 
 #The root window holds the composite graph and the list of waves
 root = Tk()

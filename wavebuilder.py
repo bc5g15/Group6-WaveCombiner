@@ -25,12 +25,17 @@ class WaveBuilder:
     pvar = 0.1
 
     n_entry = None
+
+    d_box = None
+    d_var = None
     
     def __init__(self, wave, composite_graph):
          #populate variables, then initialize graphics.
+         
          self.wav = wave
          self.comp = composite_graph
-
+         global d_var
+         self.d_var = IntVar()
          #graphics building
          self.t = Toplevel()
          self.t.title(wave.name)
@@ -71,6 +76,9 @@ class WaveBuilder:
                               command=self.set_phase, from_=0, to=360)
          self.p_scale.set(wave.freq)
          self.p_scale.pack()
+
+         #Colour picker dialogue needs to be added, also drawable tag.
+         Checkbutton(f, text="Draw?", variable=self.d_var).pack()
 
          #I need to add a specific protocol for when the user quits the window
          self.t.protocol("WM_DELETE_WINDOW", self.on_closing)

@@ -9,12 +9,14 @@ class Wave:
     freq = 0
     phase = 0
     name = ""
+    drawable = False
 
-    def __init__(self,name="default", amp=1, freq=1, phase=0):
+    def __init__(self,name="default", amp=1, freq=1, phase=0, draw=False):
         self.amp = amp
         self.freq = freq
         self.phase = phase
         self.name= name
+        self.drawable=draw
 
     def y(self, x):
         y = self.amp * math.sin((x * 2 *math.pi * self.freq) + self.phase)
@@ -30,6 +32,11 @@ class Wave:
     def set_name(self, value):
         self.name = value
         listupdate.call()
+
+    def draw_yes(self):
+        self.drawable=True
+    def draw_no(self):
+        self.drawable=False
 
 
 class Graph(Canvas):
@@ -159,3 +166,17 @@ class Graph(Canvas):
             oldx = x
             oldy = y
 
+        for item in self.wavlst:
+            if item.drawable:
+                oldx = 0
+                oldy=vy
+                for x in range(int(width)):
+                    k = (x-vx)/xratio
+                    y=item.y(k)
+                    y *=yratio
+                    y+=vy
+                    y = height - y
+
+                    self.create_line(oldx, oldy, x, y, fill="green")
+                    oldx=x
+                    oldy=y
