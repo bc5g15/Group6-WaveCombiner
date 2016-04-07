@@ -5,6 +5,7 @@ import math
 import settings
 import windowlist
 import listupdate
+from tkColorChooser import askcolor
 
 #I wouldn't really run this class as its own thing
 #It is a component of a larger project.
@@ -25,12 +26,19 @@ class WaveBuilder:
     pvar = 0.1
 
     n_entry = None
+
+    d_box = None
+    d_var = None
+
+    c_btn = None
     
     def __init__(self, wave, composite_graph):
          #populate variables, then initialize graphics.
+         
          self.wav = wave
          self.comp = composite_graph
-
+         #global d_var
+         self.d_var = IntVar()
          #graphics building
          self.t = Toplevel()
          self.t.title(wave.name)
@@ -72,10 +80,25 @@ class WaveBuilder:
          self.p_scale.set(wave.freq)
          self.p_scale.pack()
 
+         #Colour picker dialogue needs to be added, also drawable tag.
+         colourf = Frame(f)
+         colourf.pack()
+         Checkbutton(colourf, text="Draw?",\
+                     variable=self.d_var, command=self.drawable).pack(side=LEFT)
+         self.d_var.set(self.wav.drawable)
+         
+         self.c_btn = Button(colourf, width=2, command=self.change_colour, bg=self.wav.colour)
+         self.c_btn.pack(side=RIGHT)
+         Label(colourf, text="Colour:").pack(side=RIGHT)
+         
+
          #I need to add a specific protocol for when the user quits the window
          self.t.protocol("WM_DELETE_WINDOW", self.on_closing)
 
-
+    def drawable(self):
+        self.wav.setdraw(self.d_var.get())
+        self.update()
+    
     def set_amp(self, value):
         self.wav.set_amp(float(value))
         self.update()
@@ -116,6 +139,13 @@ class WaveBuilder:
 
     def update_name(self):
         self.wav.set_name(self.n_entry.get())
+
+    def change_colour(self):
+        color = askcolor()
+        if not color[1] == None:
+            self.c_btn["bg"] = color[1]
+            self.wav.setcolour(color[1])
+            self.update()
         
 ##root = Tk()
 ##WaveBuilder(Wave(), None)

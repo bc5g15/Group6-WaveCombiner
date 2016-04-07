@@ -9,12 +9,16 @@ class Wave:
     freq = 0
     phase = 0
     name = ""
+    drawable = False
+    colour = "green"
 
-    def __init__(self,name="default", amp=1, freq=1, phase=0):
+    def __init__(self,name="default", amp=1, freq=1, phase=0, draw=False, colour="green"):
         self.amp = amp
         self.freq = freq
         self.phase = phase
         self.name= name
+        self.drawable=draw
+        self.colour = colour
 
     def y(self, x):
         y = self.amp * math.sin((x * 2 *math.pi * self.freq) + self.phase)
@@ -30,6 +34,16 @@ class Wave:
     def set_name(self, value):
         self.name = value
         listupdate.call()
+
+    def draw_yes(self):
+        self.drawable=True
+    def draw_no(self):
+        self.drawable=False
+    def setdraw(self, value):
+        self.drawable=value
+
+    def setcolour(self, value):
+        self.colour = value
 
 
 class Graph(Canvas):
@@ -149,6 +163,23 @@ class Graph(Canvas):
             for item in self.wavlst:
                 y += item.y(k)
                 
+                if item.drawable:
+                    newy = item.y(k)
+                    newy *= yratio
+                    newy += vy
+                    newy = height - newy
+
+                    k2 = (x - vx + 1)/xratio
+                    y2 = item.y(k2)
+                    y2 *= yratio
+                    y2 += vy
+                    y2= height - y2
+
+                    self.create_line(oldx, newy, x, y2, fill=item.colour)
+
+                    
+                    
+                
             #y = self.wave.y(k)
             y *= yratio
             #clean up that damn y signal
@@ -159,3 +190,17 @@ class Graph(Canvas):
             oldx = x
             oldy = y
 
+##        for item in self.wavlst:
+##            if item.drawable:
+##                oldx = 0
+##                oldy=vy
+##                for x in range(int(width)):
+##                    k = (x-vx)/xratio
+##                    y=item.y(k)
+##                    y *=yratio
+##                    y+=vy
+##                    y = height - y
+##
+##                    self.create_line(oldx, oldy, x, y, fill=item.colour)
+##                    oldx=x
+##                    oldy=y
