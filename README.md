@@ -12,3 +12,4 @@ Version 4 - 13/03/16 Basic Grid-lines/Grid-numbers added, and scaling verficatio
 Version 5 - 24/03/16 Colour-Picker support for waves, and individual waves can now be drawn on the big graph
 
 Version 6 - 07/04/16: Added Placeholders for the mathematics window and the splash screen.
+    +Simple Interface Redesign

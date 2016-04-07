@@ -70,12 +70,12 @@ class Graph(Canvas):
         self.viewY = float(self["height"])/2
 
     def scrollx(self, value):
-        k = float(value)
-        self.viewX = k + float(self["width"])/2
+        k = -float(value)
+        self.viewX = (k + float(self["width"])/2)
         self.draw()
 
     def scrolly(self, value):
-        self.viewY = float(self["height"])/2 + float(value)
+        self.viewY = float(self["height"])/2 - float(value)
         self.draw()
 
     def scalex(self, value):

@@ -187,12 +187,15 @@ root.config(menu=menubar)
 left1 = Frame(root)
 left1.pack(side=LEFT)
 
+fgraph = Frame(left1, relief=SUNKEN, bd=1)
+fgraph.pack(side=TOP)
+
 #composite graph goes in the left side
 #Might want to shuffle this around later to fit more widgets in.
-comp = Graph(left1, width = 500, height=500, bg="white")
+comp = Graph(fgraph, width = 500, height=500, bg="white")
 comp.set_wave_list(wavlst)
 
-comp.pack()
+comp.grid(column=1, row=0)
 comp.recenter()
 comp.getscale()
 comp.draw()
@@ -202,10 +205,10 @@ comp.draw()
 #Scale widget designed to manipulate the graph
 #Container
 left2 = Frame(left1)
-left2.pack()
+left2.pack(side=BOTTOM)
 
 #Recenter button, no real reason, just thought it might be a nice feature
-Button(left2, text="Recenter", command=recenter).pack(side=RIGHT)
+Button(left2, text="Recenter", command=recenter).pack(side=LEFT)
 
 #Maths window button should go somewhere here. Possibly needs to be better organised.
 Button(left2, text="Mathematics", command=mathematics.start).pack(side=RIGHT)
@@ -217,12 +220,12 @@ Button(left2, text="Mathematics", command=mathematics.start).pack(side=RIGHT)
 ##      command=comp.scaley).pack(side=LEFT)
 
 
-xnav=Scale(left2,  label="Navigate X", from_=-500, to=500,\
-      command=comp.scrollx)
-xnav.pack(side=LEFT)
-ynav=Scale(left2, label="Navigate Y", from_=-500, to=500,\
-      command=comp.scrolly)
-ynav.pack(side=LEFT)
+xnav=Scale(fgraph,  label="Navigate X", from_=-500, to=500,\
+      command=comp.scrollx, orient=HORIZONTAL)
+xnav.grid(column=1, row=1)
+ynav=Scale(fgraph, label="Navigate Y", from_=500, to=-500,\
+      command=comp.scrolly, resolution=1)
+ynav.grid(column=0, row=0)
 
 #The Wave List structure goes on the right.
 right1 = Frame(root)
