@@ -5,6 +5,8 @@ from wavebuilder import WaveBuilder
 import settings
 import windowlist
 import settingsview
+import mathematics
+import splash
 
 import tkFileDialog
 import saveload
@@ -205,6 +207,9 @@ left2.pack()
 #Recenter button, no real reason, just thought it might be a nice feature
 Button(left2, text="Recenter", command=recenter).pack(side=RIGHT)
 
+#Maths window button should go somewhere here. Possibly needs to be better organised.
+Button(left2, text="Mathematics", command=mathematics.start).pack(side=RIGHT)
+
 #This sort of thing should go in the settings window
 ##Scale(left2, label="X Scale", from_=1, to=50, \
 ##      command=comp.scalex).pack(side=LEFT)
@@ -234,5 +239,10 @@ Button(right1, text="Remove", command=remove).pack()
 
 update_list()
 
+#Load up that splashscreen
+root.after(100, splash.start)
+
 root.mainloop()
+
+
 
