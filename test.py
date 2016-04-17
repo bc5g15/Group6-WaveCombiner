@@ -151,6 +151,8 @@ def new_file():
     comp.draw()
     filename = ""
 
+def load_splash():
+    splash.start(img)
 
 #Graph, populate the wave form properly
 
@@ -160,6 +162,7 @@ wavlst = [Wave(name="Default1"), Wave(freq=2, name="Default2", draw=True)]
 #The root window holds the composite graph and the list of waves
 root = Tk()
 
+img = PhotoImage(file="fin.gif")
 #Add the menubar and cascade menus
 menubar = Menu(root)
 
@@ -178,7 +181,7 @@ menubar.add_cascade(label="Edit", menu=editmenu)
 
 helpmenu = Menu(menubar, tearoff=0)
 helpmenu.add_command(label="Documentation...", command=TODO)
-helpmenu.add_command(label="About...", command=TODO)
+helpmenu.add_command(label="About...", command=load_splash)
 menubar.add_cascade(label="Help", menu=helpmenu)
 
 root.config(menu=menubar)
@@ -221,10 +224,10 @@ Button(left2, text="Mathematics", command=mathematics.start).pack(side=RIGHT)
 
 
 xnav=Scale(fgraph,  label="Navigate X", from_=-500, to=500,\
-      command=comp.scrollx, orient=HORIZONTAL)
+      command=comp.scrollx, orient=HORIZONTAL, length=500)
 xnav.grid(column=1, row=1)
 ynav=Scale(fgraph, label="Navigate Y", from_=500, to=-500,\
-      command=comp.scrolly, resolution=1)
+      command=comp.scrolly, resolution=1, length=500)
 ynav.grid(column=0, row=0)
 
 #The Wave List structure goes on the right.
@@ -243,7 +246,7 @@ Button(right1, text="Remove", command=remove).pack()
 update_list()
 
 #Load up that splashscreen
-root.after(100, splash.start)
+root.after(100, load_splash)
 
 root.mainloop()
 

@@ -1,7 +1,9 @@
 #splash.py - Splash Screen Placeholder.
 from Tkinter import *
 
-def start():
+def start(stuff):
     window = Toplevel()
-    Label(window, text="Splash Screen Goes Here!").pack()
+    a = Label(window, image=stuff)
+    a.pack(side="top", fill="both", expand="yes")
+    Button(window, text="Close", command=window.destroy).pack()
     window.lift()

@@ -13,3 +13,5 @@ Version 5 - 24/03/16 Colour-Picker support for waves, and individual waves can n
 
 Version 6 - 07/04/16: Added Placeholders for the mathematics window and the splash screen.
     +Simple Interface Redesign
+    
+Version 7 - 17/04/16: Added item for splash screen.
