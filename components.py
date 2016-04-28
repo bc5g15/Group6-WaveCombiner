@@ -3,6 +3,9 @@ from Tkinter import *
 import math
 import settings
 import listupdate
+import ImageDraw
+import Image
+import ImageFont
 
 class Wave:
     amp = 0
@@ -204,3 +207,87 @@ class Graph(Canvas):
 ##                    self.create_line(oldx, oldy, x, y, fill=item.colour)
 ##                    oldx=x
 ##                    oldy=y
+
+    def draw_image(self, filename):
+        
+        buf = 10
+        self.delete(ALL)
+        height = float(self["height"])
+        width = float(self["width"])
+        vx = self.viewX
+        vy = self.viewY
+        
+        xratio = width/(self.xscale)
+        yratio = height/(self.yscale)
+
+        #Image Creation
+
+        image = Image.new('RGB', (int(height),int(width)), "white")
+        draw = ImageDraw.Draw(image)
+        fnt = ImageFont.load_default()
+        
+        if (height/abs(yratio))> 10:
+            kyratio = height/10
+        elif (height/abs(yratio))<4:
+            kyratio = height/4
+        else:
+            kyratio = yratio
+
+        if (width/abs(xratio))>10:
+            kxratio=width/10
+        elif(width/abs(xratio))<4:
+            kxratio=width/4
+        else:
+            kxratio = xratio
+        
+        for y in range(int(-(height)),int(height+vy),int(kyratio)):
+            self.create_line(0, y-vy, width, y-vy, fill="grey")
+            draw.line([0, y-vy, width, y-vy], "gray")
+            self.create_text(vx+10, y-vy, text=str(((-(y-height)//yratio))),\
+                             offset="#0, 0")
+            draw.text((vx+10, y-vy), str((-(y-height)//yratio)), font = fnt)
+        for x in range(int(-(2*width)), int(width-vx), int(kxratio)):
+            self.create_line(x+vx, 0, x+vx, height, fill="grey")
+            draw.line([x+vx, 0, x+vx, height], "gray")
+            self.create_text(vx+x, height-vy+10, text=(x/xratio))
+            draw.text((vx+x, height-vy+10), str((x/xratio)), font = fnt)
+        
+        self.create_line(0, height-vy, width, height-vy, fill="blue")
+        draw.line([0, height-vy, width, height-vy], "blue")
+        self.create_line(vx, 0, vx, height, fill="red")
+        draw.line([vx, 0, vx, height], "red")
+
+        oldx = 0
+        oldy = vy
+        for x in range(int(width)):
+            k = (x-vx)/xratio
+            y = 0
+            for item in self.wavlst:
+                y += item.y(k)
+                
+                if item.drawable:
+                    newy = item.y(k)
+                    newy *= yratio
+                    newy += vy
+                    newy = height - newy
+
+                    k2 = (x - vx + 1)/xratio
+                    y2 = item.y(k2)
+                    y2 *= yratio
+                    y2 += vy
+                    y2= height - y2
+                    
+                    self.create_line(oldx, newy, x, y2, fill=item.colour)
+                    draw.line([oldx, newy, x, y2], item.colour)
+            y *= yratio
+            y += vy
+            y = height - y
+
+            self.create_line(oldx, oldy, x, y, fill="black")
+            draw.line([oldx, oldy, x, y], "black")
+            oldx = x
+            oldy = y
+
+        #Image Save
+        image.save(filename)
+        

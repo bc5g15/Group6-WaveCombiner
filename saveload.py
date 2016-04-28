@@ -1,6 +1,7 @@
 #saveload.py - Saving and loading object data
 import pickle
 import hashlib
+import tkMessageBox
 
 def save(data, filename):
     f = open(filename, "w")
@@ -39,5 +40,6 @@ def load(filename):
         #hashes don't match, file is corrupt
         print check
         print code
+        tkMessageBox.showinfo(title="Error Loading", message="File invalid or corrupt! \n Cannot load file!")
         return False
     

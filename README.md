@@ -15,3 +15,5 @@ Version 6 - 07/04/16: Added Placeholders for the mathematics window and the spla
     +Simple Interface Redesign
     
 Version 7 - 17/04/16: Added item for splash screen.
+
+Version 8 (FINAL) - 21/04/16: Export feature added. Mathematics window removed.

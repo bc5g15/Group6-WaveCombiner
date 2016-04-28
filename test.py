@@ -113,6 +113,18 @@ def saveas():
     saveload.save(wavlst, filename)
     root.title("Wave Combiner - " + filename)
 
+def saveimageas():
+    filename = tkFileDialog.asksaveasfilename(defaultextension=fextension,\
+                                              filetypes=(("Bitmap",".bmp"),\
+                                                         ("Jpeg",".jpg"),\
+                                                         ("Png",".png"),\
+                                                         ("All Files", "*")))
+    
+    if filename=="":
+        return
+    else:
+        comp.draw_image(filename)
+
 #Here is where things get crazy
 def load():
     global filename
@@ -165,12 +177,14 @@ root = Tk()
 img = PhotoImage(file="fin.gif")
 #Add the menubar and cascade menus
 menubar = Menu(root)
+root.title("Wave Combiner")
 
 filemenu = Menu(menubar, tearoff=0)
 filemenu.add_command(label="New", command=new_file)
 filemenu.add_command(label="Open...", command=load)
 filemenu.add_command(label="Save...", command=save)
 filemenu.add_command(label="Save As...", command=saveas)
+filemenu.add_command(label="Save Image As...", command=saveimageas)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=root.destroy)
 menubar.add_cascade(label="File", menu=filemenu)
@@ -180,7 +194,7 @@ editmenu.add_command(label="Settings...", command=opensettings)
 menubar.add_cascade(label="Edit", menu=editmenu)
 
 helpmenu = Menu(menubar, tearoff=0)
-helpmenu.add_command(label="Documentation...", command=TODO)
+#helpmenu.add_command(label="Documentation...", command=TODO)
 helpmenu.add_command(label="About...", command=load_splash)
 menubar.add_cascade(label="Help", menu=helpmenu)
 
@@ -214,7 +228,7 @@ left2.pack(side=BOTTOM)
 Button(left2, text="Recenter", command=recenter).pack(side=LEFT)
 
 #Maths window button should go somewhere here. Possibly needs to be better organised.
-Button(left2, text="Mathematics", command=mathematics.start).pack(side=RIGHT)
+#Button(left2, text="Mathematics", command=mathematics.start).pack(side=RIGHT)
 
 #This sort of thing should go in the settings window
 ##Scale(left2, label="X Scale", from_=1, to=50, \
@@ -234,8 +248,15 @@ ynav.grid(column=0, row=0)
 right1 = Frame(root)
 right1.pack(side=RIGHT)
 
+Label(right1, text="Wave List").pack()
+
+scroll = Scrollbar(right1)
+scroll.pack(side=RIGHT, fill=Y)
+
 wavlistbox = Listbox(right1, height=10)
 wavlistbox.pack(side=TOP)
+
+scroll.config(command=wavlistbox.yview)
 
 #3 Buttons - New, Edit, Delete
 #Might need to refer them in different variables, however it might be enough to just pack them
